@@ -1,0 +1,20 @@
+---
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  upload-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: https://code.forgejo.org/actions/forgejo-release@v1
+        with:
+          direction: upload
+          url: https://git.zyria.de
+          release-dir: dist/release
+          token: ${{ secrets.ZYRIA_TOKEN }}
+      - uses: https://github.com/artis3n/ansible_galaxy_collection@v2
+        with:
+          api_key: '${{ secrets.GALAXY_API_KEY }}'
